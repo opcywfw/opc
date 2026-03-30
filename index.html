@@ -1,15 +1,292 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>我的Vercel网站</title>
-  <style>
-    body { text-align: center; margin-top: 100px; font-family: Arial; }
-    h1 { color: #0070f3; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opcmap.com 网站建设中</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+            color: #fff;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 背景装饰元素 */
+        .bg-pattern {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .bg-pattern::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle, #fff 1px, transparent 1px),
+                radial-gradient(circle, #fff 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            animation: movePattern 30s linear infinite;
+        }
+
+        @keyframes movePattern {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        /* 主内容容器 */
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            max-width: 90%;
+        }
+
+        /* 标题样式 */
+        .main-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee, #3a0ca3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            animation: fadeIn 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 副标题样式 */
+        .sub-title {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #e2e8f0;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1.5s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        /* 装饰线 */
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            margin: 0 auto 2rem;
+            border-radius: 3px;
+            animation: grow 1s ease-out 0.6s forwards;
+            transform: scaleX(0);
+        }
+
+        @keyframes grow {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* 倒计时区域 */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            animation: fadeIn 1.5s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            min-width: 60px;
+        }
+
+        .countdown-value {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
+            color: #4cc9f0;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            text-transform: uppercase;
+        }
+
+        /* 服务器推荐区域 */
+        .server-recommend {
+            margin: 3rem 0;
+            animation: fadeIn 1.5s ease-out 1.2s forwards;
+            opacity: 0;
+        }
+
+        .server-recommend-title {
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .server-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .server-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            border-radius: 8px;
+            color: #4cc9f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .server-link:hover {
+            background: rgba(76, 201, 240, 0.2);
+            border-color: #4cc9f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 201, 240, 0.15);
+        }
+
+        /* 页脚信息 */
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            animation: fadeIn 1.5s ease-out 1.5s forwards;
+            opacity: 0;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .countdown {
+                gap: 0.5rem;
+            }
+            .countdown-item {
+                padding: 0.5rem 0.8rem;
+            }
+            .server-links {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .footer {
+                bottom: 1rem;
+                font-size: 0.8rem;
+                text-align: center;
+                padding: 0 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello Vercel!</h1>
-  <p>网站已成功部署</p>
+    <!-- 背景装饰 -->
+    <div class="bg-pattern"></div>
+
+    <!-- 主内容 -->
+    <div class="container">
+        <h1 class="main-title">网站正在建设中</h1>
+        <div class="divider"></div>
+        <p class="sub-title">我们正在精心打造全新的网站体验，敬请期待...</p>
+
+        <!-- 倒计时模块 -->
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">天</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">时</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">分</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">秒</div>
+            </div>
+        </div>
+
+        <!-- 服务器推荐区域 -->
+        <div class="server-recommend">
+            <div class="server-recommend-title">服务器推荐（云上Openclaw必备）：</div>
+            <div class="server-links">
+                <a href="https://www.aliyun.com/minisite/goods?userCode=xbifxhv7" class="server-link" target="_blank">阿里云专属折扣</a>
+                <a href="https://cloud.tencent.com/act/pro/spring2026?from=29602&cps_key=8eb5bd7fecaebaa8c13d45dcda49294d&s_refer=https%3A%2F%2Fkubk.net%2F" class="server-link" target="_blank">腾讯云特惠</a>
+                <a href="https://cloud.tencent.com/act/cps/redirect?redirect=37925&cps_key=8eb5bd7fecaebaa8c13d45dcda49294d" class="server-link" target="_blank">OpenClaw最全教程合辑</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        © 2026 网站名称 - 所有权利保留
+    </div>
+
+    <!-- 倒计时脚本 -->
+    <script>
+        // 设置目标日期（可自行修改）
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 30); // 30天后
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.querySelectorAll('.countdown-value').forEach(el => el.textContent = '00');
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // 初始化并每秒更新
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
