@@ -10,90 +10,174 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+}
+
+:root{
+  color-scheme:dark;
+  --bg:#07111f;
+  --panel:rgba(255,255,255,0.075);
+  --panel-strong:rgba(255,255,255,0.11);
+  --line:rgba(148,163,184,0.22);
+  --line-active:rgba(45,212,191,0.55);
+  --text:#eef6ff;
+  --muted:#9eb0c4;
+  --accent:#2dd4bf;
+  --accent-2:#60a5fa;
+  --shadow:0 22px 70px rgba(0,0,0,0.38);
+}
+
+html{
+  min-height:100%;
+  background:var(--bg);
 }
 
 body{
   min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color:#e2e8f0;
+  display:grid;
+  place-items:center;
+  padding:42px 16px;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(45,212,191,0.18), transparent 28rem),
+    radial-gradient(circle at 84% 18%, rgba(96,165,250,0.16), transparent 30rem),
+    linear-gradient(145deg, #07111f 0%, #0b1220 48%, #050814 100%);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
 
 .container{
-  width:90%;
-  max-width:520px;
+  width:min(100%,560px);
   text-align:center;
+  position:relative;
+}
+
+.container::before{
+  content:"";
+  position:absolute;
+  inset:-24px;
+  z-index:-1;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:28px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025));
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
 }
 
 h1{
-  font-size:28px;
-  color:#38bdf8;
-  margin-bottom:28px;
-  letter-spacing:2px;
+  margin-bottom:30px;
+  color:#f8fbff;
+  font-size:clamp(26px,5vw,38px);
+  font-weight:800;
+  line-height:1.18;
+  letter-spacing:0;
 }
 
-/* 卡片 */
 .card{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(56,189,248,0.25);
-  border-radius:14px;
-  padding:20px;
+  display:block;
   margin:16px 0;
-  transition:0.2s;
+  padding:22px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055)),
+    var(--panel);
+  box-shadow:0 12px 34px rgba(0,0,0,0.2);
+  transition:border-color .18s ease, background-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
 
 .card:hover{
-  border-color:rgba(56,189,248,0.5);
+  transform:translateY(-3px);
+  border-color:var(--line-active);
+  background-color:var(--panel-strong);
+  box-shadow:0 18px 44px rgba(0,0,0,0.28);
 }
 
 .title{
-  font-size:18px;
-  font-weight:600;
-  margin-bottom:8px;
+  margin-bottom:10px;
+  color:#ffffff;
+  font-size:clamp(17px,3.4vw,20px);
+  font-weight:700;
+  line-height:1.45;
 }
 
 .desc{
-  font-size:13px;
-  color:#94a3b8;
-  line-height:1.6;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.75;
 }
 
 .tag{
-  display:inline-block;
-  font-size:12px;
-  padding:2px 10px;
-  border:1px solid rgba(56,189,248,0.4);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:26px;
+  margin-bottom:12px;
+  padding:3px 12px;
+  border:1px solid rgba(45,212,191,0.42);
   border-radius:999px;
-  color:#38bdf8;
-  margin-bottom:10px;
+  background:rgba(45,212,191,0.11);
+  color:#67e8f9;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.04em;
 }
 
-/* 链接卡片 */
 a{
   text-decoration:none;
   color:inherit;
 }
 
-/* 二维码 */
 .qr-box{
-  margin-top:28px;
+  margin-top:30px;
   text-align:center;
 }
 
 .qr-box img{
-  width:140px;
-  height:140px;
-  border-radius:10px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.4);
+  width:144px;
+  height:144px;
+  object-fit:cover;
+  border:8px solid rgba(255,255,255,0.9);
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 16px 42px rgba(0,0,0,0.36);
+  content-visibility:auto;
 }
 
 .qr-text{
+  max-width:320px;
+  margin:12px auto 0;
+  color:var(--muted);
   font-size:12px;
-  color:#94a3b8;
-  margin-top:8px;
+  line-height:1.6;
+}
+
+@media (max-width:480px){
+  body{
+    align-items:start;
+    padding:30px 14px;
+  }
+
+  .container::before{
+    inset:-14px;
+    border-radius:22px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:16px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .card{
+    transition:none;
+  }
+
+  .card:hover{
+    transform:none;
+  }
 }
 </style>
 </head>
@@ -105,27 +189,25 @@ a{
   <h1>OPC成长之路</h1>
 
   <!-- 免费教程 -->
-  <div class="card"><a href="#" target="_blank">
+  <div class="card"><a href="#" target="_blank" rel="noopener">
     <div class="tag">Free</div>
     <div class="title">AI免费教程</div>
     <div class="desc">点击即可免费获取下载链接<br>（链接随时可能失效，请先保存到网盘）</div></a>
   </div>
 
   <!-- 付费社群 -->
-  <a href="YOUR_LINK_HERE" target="_blank">
-    <div class="card"> <a href="https://t.zsxq.com/xq3qO" target="_blank">
+  <a class="card" href="https://t.zsxq.com/xq3qO" target="_blank" rel="noopener">
       <div class="tag">Pro</div>
       <div class="title">AI付费社群（超5.5W圈友已加入）</div>
       <div class="desc">
         微信扫描下方二维码进入，即可免费领取3天体验卡。<br/>
         3天内所有付费内容可看，相当于白嫖三天！包括最前沿的AI市场动态和洞察，优质AI赚钱项目复盘经验分享，付费后还有很多项目实战行动营等，目前持续涨价中...
-      </div> </a>
-    </div>
+      </div>
   </a>
 
   <!-- 二维码（底部居中） -->
   <div class="qr-box">
-    <img src="tupian/aipj.png" alt="">
+    <img src="tupian/aipj.png" alt="" loading="lazy" decoding="async">
     <div class="qr-text">截图后微信扫码 / 免费领取3天体验卡</div>
   </div>
 
